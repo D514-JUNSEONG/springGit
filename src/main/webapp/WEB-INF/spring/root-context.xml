@@ -16,5 +16,10 @@
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> <!-- 스프링 jdbc -->
 		<property name="dataSource" ref="dataSource"/> <!--dbcp를 참조해서 스프링 jdbc를 쓰면서 dbcp를 사용하게끔 만듬  -->
 	</bean>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10485760"/>
+		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
 		
 </beans>

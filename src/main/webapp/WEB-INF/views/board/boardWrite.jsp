@@ -41,6 +41,11 @@
 				<div class="col-12" style="height: 600px"><br>
 					<textarea id="contents" name="contents"></textarea>
 				</div>
+				<form action="/file/upload" method="post" enctype="multipart/form-data">
+					<input type=file name="file"><br>
+					
+				</form>
+				
 				<div class="col-12 btns" align="right">
 					<button type="submit" class="btn btn-outline-secondary" id="toWrite">글 쓰기</button>
 					<button type="button" class="btn btn-outline-secondary" id="toList">목록으로</button>

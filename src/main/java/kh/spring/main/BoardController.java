@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import kh.spring.dao.BoardDAO;
+import kh.spring.dao.FileDAO;
 import kh.spring.dto.BoardDTO;
+import kh.spring.dto.FileDTO;
+import kh.spring.service.BoardService;
 import kh.spring.vo.PagingVO;
 
 
@@ -19,54 +22,65 @@ import kh.spring.vo.PagingVO;
 public class BoardController {
 
 	@Autowired
-	private BoardDAO dao;
+	private BoardService bService;
 	
 	@Autowired
-	private PagingVO vo;
+	private FileDAO pdao;
 	
-	@Autowired
-	private HttpSession session;
+	//@Autowired
+	//private PagingVO vo;
+	
+	//@Autowired
+	//private HttpSession session;
 
-	//수정
+	//modifyProc
 	@RequestMapping("modifyProc")
 	public String modify(BoardDTO dto) throws Exception {
-		System.out.println("수정 요청 확인");
-		int result = dao.modify(dto);
+		
+		bService.modify(dto);
 		return "home";
+		
 	}
 	
-	//수정화면 이동
+	//modifyForm View
 	@RequestMapping(value="modifyForm" , method=RequestMethod.GET)
 	public String modifyForm(Model model, int board_seq) throws Exception {
-		System.out.println("수정 화면 전환");
-		BoardDTO dto = dao.modifyView(board_seq);
+	
+		BoardDTO dto = bService.modifyView(board_seq);
 		model.addAttribute("list",dto);
 		return "board/writeModify";
+		
 	}
 	
+	//delete
 	@RequestMapping("delete")
 	public String delete(int board_seq) throws Exception {
-		System.out.println("삭제 요청 확인");
-		int result = dao.delete(board_seq);
+
+		bService.delete(board_seq);
 		return "home";
+		
 	}
 	
+	//writeView
 	@RequestMapping("boardWrite")
 	public String boardWrite() {
 		return "board/boardWrite";
 	}
 	
+	//writeProc
 	@RequestMapping("writeProc")
 	public String writeProc(String title, String contents) throws Exception{
-//		String id = (String)session.getAttribute("loginID");
-		dao.insert(title,contents);
+		
+		bService.insert(title,contents);
 		return "redirect:/";
+		
 	}
 	
+	//list
 	@RequestMapping("list")
 	public String list(PagingVO vo, Model model, String nowPage, String cntPerPage) throws Exception {
 			
-			int total = dao.CountBoard();
+			int total = bService.CountBoard();
 			if (nowPage == null && cntPerPage == null) {
 				nowPage = "1";
 				cntPerPage = "5";
@@ -76,18 +90,19 @@ public class BoardController {
 			}
 			vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 			model.addAttribute("paging", vo);
-			model.addAttribute("viewAll", dao.SelectBoard(vo));
+			model.addAttribute("viewAll", bService.SelectBoard(vo));
 		return "board/boardlist";
 	}
 
+	//listDetail View
 	@RequestMapping(value="detail" ,method=RequestMethod.GET)
 	public String detail(Model model,int board_seq) throws Exception{
-		BoardDTO dto = dao.detail(board_seq);
+		BoardDTO dto = bService.detail(board_seq);
 		model.addAttribute("list",dto);
 		return "board/detail";
 	}
 
-	@ExceptionHandler // 예외가 발생했을 때만,
+	@ExceptionHandler // error
 	public String execeptionHandler(Exception e) {
 		e.printStackTrace();
 		return "error";
