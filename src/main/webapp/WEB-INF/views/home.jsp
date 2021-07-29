@@ -94,9 +94,8 @@
 							아이디를 다른 사람과 공유하지 않습니다.</small>
 					</div>
 					<div class="form-group">
-						<label for="exampleInputPassword1">Password</label> <input
-							type="password" class="form-control" id="pw" name="pw"
-							placeholder="비밀번호를 입력해 주세요.">
+						<label for="exampleInputPassword1">Password</label> 
+						<input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호를 입력해 주세요.">
 					</div>
 
 					<button type="submit" class="btn btn-secondary"
@@ -111,7 +110,7 @@
 				<div class=img>
 					<img src="/img/user.png">
 				</div>
-				<div class="title">${loginID }님</div>
+				<div class="title">${loginID.getId() }님</div>
 				<div class="menu">
 
 					<div id=boardBtn>게시판</div>
